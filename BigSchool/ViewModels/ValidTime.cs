@@ -16,8 +16,7 @@ namespace BigSchool.ViewModels
                 "HH:mm",
                 CultureInfo.CurrentCulture,
                 DateTimeStyles.None,
-                out dateTime
-                );
+                out dateTime );
             return isValid;
         }
     }
