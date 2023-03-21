@@ -1,4 +1,5 @@
-﻿@model BigSchool.ViewModels.CourseViewModel
+﻿
+@model BigSchool.ViewModels.CourseViewModel
 @{
     ViewBag.Title = "Home Page";
 }
@@ -28,7 +29,7 @@
                     </span>
                     @if (Model.ShowAction)
                     {
-                            <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
+                        <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
                     }
                 </div>
             </li>
@@ -43,7 +44,7 @@
                 var button = $(e.target);
                 $.post("/api/attendances", { courseId: button.attr("data-course-id") })
                     .done(function () {
-                        
+
                         button.removeClass("btn-default");
                         button .addClass("btn-info");
                         button.text("Going");
