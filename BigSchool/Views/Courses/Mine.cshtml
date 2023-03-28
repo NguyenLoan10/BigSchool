@@ -20,7 +20,7 @@
             <div class="details">
                 <span class="lecturer">
                     @course.Lecturer.Name
-                    
+
                 </span>
                 <span class="category">
                     @course.Category.Name
@@ -30,19 +30,70 @@
                 </span>
             </div>
             <div class="action">
-                <a href="">Edit</a>
-                <a href="">Delete</a>
+                <a href="@Url.Action("Edit", "Courses"), new {id=courses.Id}">
+                    Edit
+                </a>
+                |
+                <a href="#" class="js-cancel-course" data-course-id="@course.Id">Cancel</a>
             </div>
         </li>
     }
 </ul>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".js-cancel-course").click(function (e) {
+                e.preventDefault();
+                var link = $(e.target);
+                bootbox.confirm("Are you sure to cancel?",
+                    function () {
+                        $.ajax({
+                            url: "/api/course/" + link.attr("data-course-id"), method: "DELETE"
+                        })
+                            .done(function () {
+                                link.parents("li").fadeOut(function () {
+                                    $(this).remove();
+                                });
+                            })
+                            .fail(function () {
+                                alert("Some thing failed!")
+                            });
+                    });
+            });
+        });
+    </script>
+}
 <style>
-.course > li.action{
-    display: none;
-    left: 70px;
-    position: absolute;
-}
-.course > li:hover .action{
-    display: block;
-}
+    .course {
+        list-style: none;
+    }
+
+        .course > li {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+            .course > li .date {
+                text-align: center;
+                background-color: #d41d50;
+                color: white;
+                width: 60px;
+                border-radius: 8px;
+            }
+
+            .course > li .details {
+                position: absolute;
+                top: 0;
+                left: 70px;
+            }
+    .course > li.action {
+        display: none;
+        left: 70px;
+        position: absolute;
+    }
+
+    .course > li:hover .action {
+        display: block;
+    }
 </style>
